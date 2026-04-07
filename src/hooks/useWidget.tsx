@@ -1,19 +1,33 @@
 import { useEffect } from "react";
 
-// eslint-disable-next-line @typescript-eslint/explicit-function-return-type
-export function useWidgetUser(user) {
+interface WidgetUser {
+	id: string;
+	name: string;
+	email: string;
+	role: string;
+	tenant: string;
+}
+
+declare global {
+	interface Window {
+		__gfpWidget?: {
+			setUser: (user: WidgetUser) => void;
+			clearUser: () => void;
+		};
+	}
+}
+
+export function useWidgetUser(user: WidgetUser | undefined): void {
 	useEffect(() => {
 		if (user && window.__gfpWidget) {
-			// eslint-disable-next-line @typescript-eslint/no-unsafe-call
 			window.__gfpWidget.setUser({
-				id: "user.id",
-				name: "user.name",
-				email: "user.email@email.com",
-				role: "user.role",
-				tenant: "user.tenant",
+				id: user.id,
+				name: user.name,
+				email: user.email,
+				role: user.role,
+				tenant: user.tenant,
 			});
 		} else if (!user && window.__gfpWidget) {
-			// eslint-disable-next-line @typescript-eslint/no-unsafe-call
 			window.__gfpWidget.clearUser();
 		}
 	}, [user]);

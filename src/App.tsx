@@ -11,7 +11,13 @@ const queryClient = new QueryClient();
 type AppProps = { router: TanstackRouter };
 
 const App = ({ router }: AppProps): FunctionComponent => {
-	useWidgetUser(undefined);
+	useWidgetUser({
+		id: "usr_123456789",
+		name: "John Doe",
+		email: "john.doe@example.com",
+		role: "admin",
+		tenant: "acme_corp",
+	});
 
 	return (
 		<QueryClientProvider client={queryClient}>
